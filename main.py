@@ -21,7 +21,6 @@ SI6iyrYbKR0NEBSqq4XkadEjsCs4F1RncsS4L9Mce3b0wGLs9/7ZIXdQIDAQAB
 class TokenRequest(BaseModel):
     token: str
 
-
 @app.post("/verify")
 def verify(req: TokenRequest):
     try:
@@ -35,13 +34,13 @@ def verify(req: TokenRequest):
 
         return {
             "valid": True,
-            "email": payload["email"],
-            "sub": payload["sub"],
-            "aud": payload["aud"],
+            "email": payload.get("email"),
+            "sub": payload.get("sub"),
+            "aud": payload.get("aud"),
         }
 
     except jwt.PyJWTError:
-        raise JSONResponse(
+        return JSONResponse(
             status_code=401,
             content={"valid": False},
-            )
+        )
