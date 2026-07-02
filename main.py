@@ -39,8 +39,9 @@ def verify(req: TokenRequest):
             "aud": payload.get("aud"),
         }
 
-    except jwt.PyJWTError:
-        return JSONResponse(
-            status_code=401,
-            content={"valid": False},
-        )
+    except Exception as e:
+    print(type(e).__name__, str(e))
+    return JSONResponse(
+        status_code=401,
+        content={"valid": False},
+    )
